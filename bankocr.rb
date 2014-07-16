@@ -1,7 +1,11 @@
 class BankOCR
 
   def self.read(scan)
-    0
+    zero =  " _ "+
+            "| |"+
+            "|_|"+
+            "   "
+    return 0 if scan.include? zero
   end
 
 end
