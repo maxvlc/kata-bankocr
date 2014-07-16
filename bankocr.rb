@@ -5,7 +5,12 @@ class BankOCR
             "| |"+
             "|_|"+
             "   "
+    one = "   "+
+          "  |"+
+          "  |"+
+          "   "
     return 0 if scan.include? zero
+    return 1 if scan.include? one
   end
 
 end
