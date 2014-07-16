@@ -1,14 +1,13 @@
 require './bankocr'
 
-describe "BankOCR" do
+describe "BankOCR scanner" do
 
 	it "detects a 0" do
-		analize = "
- _  _  _  _  _  _  _  _  _ 
-| || || || || || || || || |
-|_||_||_||_||_||_||_||_||_|
-                           "
-    expect(BankOCR.new.reader(analize)).to eq "Detects a Zero"		
+		scan = " _  _  _  _  _  _  _  _  _ "+
+					 "| || || || || || || || || |"+
+					 "|_||_||_||_||_||_||_||_||_|"+
+					 "                           "
+    expect(BankOCR.read(scan)).to eq "Detects a Zero"
 	end
 
 end
