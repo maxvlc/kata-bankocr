@@ -82,4 +82,12 @@ describe "BankOCR scanner" do
 		expect(BankOCR.read(two)).to eq 9
 	end
 
+	it "detects an 000000000 account" do
+		account = " _  _  _  _  _  _  _  _  _ "+
+							"| || || || || || || || || |"
+							"|_||_||_||_||_||_||_||_||_|"
+							"                           "
+		expect(BankOCR.read(account)).to eq 000000000
+	end
+
 end
