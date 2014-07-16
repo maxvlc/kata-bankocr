@@ -18,4 +18,12 @@ describe "BankOCR scanner" do
 		expect(BankOCR.read(one)).to eq 1
 	end
 
+		it "detects a 2" do
+		two = " _ "+
+					" _|"+
+					"|_ "+
+					"   "
+		expect(BankOCR.read(two)).to eq 2
+	end
+
 end
