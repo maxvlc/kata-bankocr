@@ -7,7 +7,7 @@ describe "BankOCR scanner" do
 					 "| || || || || || || || || |"+
 					 "|_||_||_||_||_||_||_||_||_|"+
 					 "                           "
-    expect(BankOCR.read(scan)).to eq "Detects a Zero"
+    expect(BankOCR.read(scan)).to eq 0
 	end
 
 end
