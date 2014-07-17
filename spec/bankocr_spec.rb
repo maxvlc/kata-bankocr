@@ -3,91 +3,88 @@ require './bankocr'
 describe "BankOCR scanner" do
 
 	it "detects a 0" do
-		zero =	" _ "+
-						"| |"+
-						"|_|"+
-						"   "
-    expect(BankOCR.read(zero)).to eq 0
+		zero =	[" _ ","| |","|_|","   "]
+    expect(BankOCR.look_line(zero)).to eq 0
 	end
 
 	it "detects a 1" do
-		one = "   "+
+		one = ["   "+
 					"  |"+
 					"  |"+
-					"   "
-		expect(BankOCR.read(one)).to eq 1
+					"   "]
+		expect(BankOCR.look_line(one)).to eq 1
 	end
 
 	it "detects a 2" do
-		two = " _ "+
-					" _|"+
-					"|_ "+
-					"   "
-		expect(BankOCR.read(two)).to eq 2
+		two = [" _ "+
+					 " _|"+
+					 "|_ "+
+					 "   "]
+		expect(BankOCR.look_line(two)).to eq 2
 	end
 
 	it "detects a 3" do
-		two = " _ "+
-					" _|"+
-					" _|"+
-					"   "
-		expect(BankOCR.read(two)).to eq 3
+		three = [" _ "+
+						 " _|"+
+						 " _|"+
+						 "   "]
+		expect(BankOCR.look_line(three)).to eq 3
 	end
 
 	it "detects a 4" do
-		two = "   "+
-					"|_|"+
-					"  |"+
-					"   "
-		expect(BankOCR.read(two)).to eq 4
+		four = ["   "+
+						"|_|"+
+						"  |"+
+						"   "]
+		expect(BankOCR.look_line(four)).to eq 4
 	end
 	
 	it "detects a 5" do
-		two = " _ "+
-					"|_ "+
-					" _|"+
-					"   "
-		expect(BankOCR.read(two)).to eq 5
+		five = [" _ "+
+						"|_ "+
+						" _|"+
+						"   "]
+		expect(BankOCR.look_line(five)).to eq 5
 	end
 	
 	it "detects a 6" do
-		two = " _ "+
-					"|_ "+
-					"|_|"+
-					"   "
-		expect(BankOCR.read(two)).to eq 6
+		six = 	[" _ "+
+						 "|_ "+
+						 "|_|"+
+						 "   "]
+		expect(BankOCR.look_line(six)).to eq 6
 	end
 	
 	it "detects a 7" do
-		two = " _ "+
-					"  |"+
-					"  |"+
-					"   "
-		expect(BankOCR.read(two)).to eq 7
+		seven = [" _ "+
+						 "  |"+
+						 "  |"+
+						 "   "]
+		expect(BankOCR.look_line(seven)).to eq 7
 	end
 	
 	it "detects a 8" do
-		two = " _ "+
-					"|_|"+
-					"|_|"+
-					"   "
-		expect(BankOCR.read(two)).to eq 8
+		eight = [" _ "+
+						 "|_|"+
+						 "|_|"+
+						 "   "]
+		expect(BankOCR.look_line(eight)).to eq 8
 	end
 
 	it "detects a 9" do
-		two = " _ "+
-					"|_|"+
-					" _|"+
-					"   "
-		expect(BankOCR.read(two)).to eq 9
+		nine = [" _ "+
+						"|_|"+
+						" _|"+
+						"   "]
+		expect(BankOCR.look_line(nine)).to eq 9
 	end
 
 	it "detects an 000000000 account" do
-		account = " _  _  _  _  _  _  _  _  _ "+
-							"| || || || || || || || || |"
-							"|_||_||_||_||_||_||_||_||_|"
-							"                           "
-		expect(BankOCR.read(account)).to eq 000000000
+		account = [" _  _  _  _  _  _  _  _  _ ",
+							 "| || || || || || || || || |",
+							 "|_||_||_||_||_||_||_||_||_|",
+							 "                           "]
+		expect(BankOCR.look_line(account)).to eq 000000000
 	end
 
 end
