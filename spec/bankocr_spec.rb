@@ -84,7 +84,22 @@ describe "BankOCR scanner" do
 							 "| || || || || || || || || |",
 							 "|_||_||_||_||_||_||_||_||_|",
 							 "                           "]
-		expect(BankOCR.look_line(account)).to eq 000000000
+		account2= ["    _  _  _  _  _  _     _ ",
+							 "|_||_|| || ||_   |  |  ||_ ",
+							 "  | _||_||_||_|  |  |  | _|",
+							 "                           "]
+
+		account3= [" _  _  _  _  _  _  _  _  _ "+
+							 "|_ |_ |_ |_ |_ |_ |_ |_ |_ "+
+							 "|_||_||_||_||_||_||_||_||_|"+
+							 "                           "]
+
+		expect(BankOCR.decode_array(account2)).to eq 000000000
+		# 490067715
 	end
+
+
+
+                           
 
 end
