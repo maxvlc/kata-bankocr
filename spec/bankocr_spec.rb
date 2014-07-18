@@ -98,8 +98,11 @@ describe "BankOCR scanner" do
 		expect(BankOCR.read_line(account3)).to eq 666666666
 	end
 
-
-
-                           
-
+	it "detects an invalid checksum" do
+		account = ["    _  _  _  _  _  _     _ ",
+							 "|_||_|| || ||_   |  |  ||_ ",
+							 "  | _||_||_||_|  |  |  | _|",
+							 "                           "]
+		expect(BankOCR.checksum?(account)).to eq false
+	end
 end
