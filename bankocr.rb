@@ -42,41 +42,37 @@ class BankOCR
                     "   "
               }
 
-  def self.read_line original_array
-    account =""
-    character=""
-    transform_account_to_string = ""
-    number_readed = 0
-
-    #Convierte el array de string que me pasan a una cadena
-    (0..3).each { |line_readed| transform_account_to_string+=original_array[line_readed].to_s}
-    
-    #Recorro las nueve posiciones que forman la cuenta y las cuatro lineas para sacar cada uno de los num.
+  def self.read_line account_number
+    final_account = ""
+    account_as_string = convert_array_to_string (account_number)
+   
     (0..9).each {|position| 
       pointer = (position*3)
       digit = ""
       (0..3).each { |line|
         start = pointer+(line*27)
         final = start+2
-        digit += transform_account_to_string[start..final]
+        digit += account_as_string[start..final]
         }
-        #Leo cada digito por linea y lo paso para decodificarlo y lo añado a la cuenta total
-        account += identify_number(digit)
+        final_account += extract_account_number(digit)
       }
-      account.to_i
+      final_account.to_i
   end
 
-  def self.identify_number digit
+  def self.convert_array_to_string original_array
+    final_string = ""
+    (0..3).each { |line_readed| final_string += original_array[line_readed].to_s}
+    final_string
+  end
+
+  def self.extract_account_number digit
     result = ""
-    #Busca el numero en mi hash y lo devuelve para añadir a la cuenta
     CHARACTERS.select { |key,value| result << key.to_s if value == digit }
     result
   end
 
   def self.read_number scan
-    #Convierto el array de texto que me envian a una cadena de texto
     string_result = scan.map { |number_as_string| number_as_string.to_s}.join
-    #Busca el numero en mi hash y lo devuelve
     CHARACTERS.select { |key,value| return key if value==string_result }
   end
 end
