@@ -79,23 +79,23 @@ describe "BankOCR scanner" do
 		expect(BankOCR.look_line(nine)).to eq 9
 	end
 
-	it "detects an 000000000 account" do
-		account = [" _  _  _  _  _  _  _  _  _ ",
+	it "detects different account numbers" do
+		account1= [" _  _  _  _  _  _  _  _  _ ",
 							 "| || || || || || || || || |",
 							 "|_||_||_||_||_||_||_||_||_|",
 							 "                           "]
+		expect(BankOCR.decode_array(account1)).to eq 000000000
+
 		account2= ["    _  _  _  _  _  _     _ ",
 							 "|_||_|| || ||_   |  |  ||_ ",
 							 "  | _||_||_||_|  |  |  | _|",
 							 "                           "]
-
+		expect(BankOCR.decode_array(account2)).to eq 490067715
 		account3= [" _  _  _  _  _  _  _  _  _ "+
 							 "|_ |_ |_ |_ |_ |_ |_ |_ |_ "+
 							 "|_||_||_||_||_||_||_||_||_|"+
 							 "                           "]
-
-		expect(BankOCR.decode_array(account2)).to eq 000000000
-		# 490067715
+		expect(BankOCR.decode_array(account3)).to eq 666666666
 	end
 
 
