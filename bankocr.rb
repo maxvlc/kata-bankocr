@@ -3,63 +3,35 @@ require './workingfile'
 
 class BankOCR
 
-  CHARACTERS = {0=> " _ "+
-                    "| |"+
-                    "|_|"+
-                    "   ",
-                1=> "   "+
-                    "  |"+
-                    "  |"+
-                    "   ",
-                2=> " _ "+
-                    " _|"+
-                    "|_ "+
-                    "   ",
-                3=> " _ "+
-                    " _|"+
-                    " _|"+
-                    "   ",
-                4=> "   "+
-                    "|_|"+
-                    "  |"+
-                    "   ",
-                5=> " _ "+
-                    "|_ "+
-                    " _|"+
-                    "   ",
-                6=> " _ "+
-                    "|_ "+
-                    "|_|"+
-                    "   ",
-                7=> " _ "+
-                    "  |"+
-                    "  |"+
-                    "   ",
-                8=> " _ "+
-                    "|_|"+
-                    "|_|"+
-                    "   ",
-                9=> " _ "+
-                    "|_|"+
-                    " _|"+
-                    "   "
+  CHARACTERS = {0=> " _ | ||_|   ",
+                1=> "     |  |   ",
+                2=> " _  _||_    ",
+                3=> " _  _| _|   ",
+                4=> "   |_|  |   ",
+                5=> " _ |_  _|   ",
+                6=> " _ |_ |_|   ",
+                7=> " _   |  |   ",
+                8=> " _ |_||_|   ",
+                9=> " _ |_| _|   "
               }
-
-  def self.check_and_create check_account
-    # account_to_save = read_line(check_account)
-    WorkingFile.create_file("numbers.txt", check_account)
-  end
+  CHARS_PER_LINE = 27
+  CHARS_BETWEEN_NUMBER = 2
+  RESULT_FILE = "numbers.txt"
+  ZERO = 0
+  CHAR_LENGTH = 9
+  CHAR_SECTION = 3
+  LAST_LINE = 3
 
   def self.read_line account_number
     final_account = ""
     account_as_string = convert_array_to_string (account_number)
    
-    (0..9).each {|position| 
-      pointer = (position*3)
+    (ZERO..CHAR_LENGTH).each {|position| 
+      pointer = (position * CHAR_SECTION)
       digit = ""
-      (0..3).each { |line|
-        start = pointer+(line*27)
-        final = start+2
+      (ZERO..CHAR_SECTION).each { |line|
+        start = pointer + (line * CHARS_PER_LINE)
+        final = start + CHARS_BETWEEN_NUMBER
         digit += account_as_string[start..final]
       }
       final_account += extract_account_number(digit)
@@ -69,7 +41,7 @@ class BankOCR
 
   def self.convert_array_to_string original_array
     final_string = ""
-    (0..3).each { |line_readed| final_string += original_array[line_readed].to_s}
+    (ZERO..LAST_LINE).each { |line_readed| final_string += original_array[line_readed].to_s}
     final_string
   end
 
@@ -82,5 +54,14 @@ class BankOCR
   def self.read_number scan
     string_result = scan.map { |number_as_string| number_as_string.to_s}.join
     CHARACTERS.select { |key,value| return key if value==string_result }
+  end
+
+  def self.check_and_create account
+    WorkingFile.create_file(RESULT_FILE, account)
+  end
+
+  def self.check account
+    result = ""
+    result = "Invalid Account" if read_line(account).size < CHAR_LENGTH
   end
 end

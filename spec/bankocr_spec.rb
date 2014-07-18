@@ -14,6 +14,10 @@ describe "BankOCR scanner" do
 						 "|_||_|| || ||_   |  |  ||_ ",
 						 "  | _||_||_||_|  |  |  | _|",
 						 "                           "]
+	bad_account= ["    _  _  _  _  _  _     _ ",
+						 		"|_|| || || ||_   |  |  ||_ ",
+						 		"  | _||_||_||_|  |  |  | _|",
+						 		"                           "]
 
 	it "detects a 0" do
 		zero =	[" _ ","| |","|_|","   "]
@@ -104,5 +108,9 @@ describe "BankOCR scanner" do
 
 	it "creates a file with results and displays it" do
 		expect(BankOCR.check_and_create(account2)).to eq "490067715   ILL\n"
+	end
+
+	it "detects invalid accounts numbers" do
+		expect(BankOCR.check(bad_account)).to eq "Invalid Account"
 	end
 end
