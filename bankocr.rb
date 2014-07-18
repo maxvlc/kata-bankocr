@@ -1,3 +1,6 @@
+require './checksum'
+require './workingfile'
+
 class BankOCR
 
   CHARACTERS = {0=> " _ "+
@@ -42,12 +45,9 @@ class BankOCR
                     "   "
               }
 
-  def self.checksum? account_number
-    result = 0
-    checksum = false
-    account_as_array_of_chars = (read_line(account_number)).to_s.chars
-    (0..8).each { |num| result += ((num+1)*account_as_array_of_chars[num].to_i) }
-    checksum = (result % 11 == 0)
+  def self.check_and_create check_account
+    # account_to_save = read_line(check_account)
+    WorkingFile.create_file("numbers.txt", check_account)
   end
 
   def self.read_line account_number
@@ -61,10 +61,10 @@ class BankOCR
         start = pointer+(line*27)
         final = start+2
         digit += account_as_string[start..final]
-        }
-        final_account += extract_account_number(digit)
       }
-      final_account.to_i
+      final_account += extract_account_number(digit)
+    }
+    final_account
   end
 
   def self.convert_array_to_string original_array

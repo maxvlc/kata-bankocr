@@ -2,6 +2,19 @@ require './bankocr'
 
 describe "BankOCR scanner" do
 
+	account1= [" _  _  _  _  _  _  _  _  _ ",
+						 "| || || || || || || || || |",
+						 "|_||_||_||_||_||_||_||_||_|",
+						 "                           "]
+	account3= [" _  _  _  _  _  _  _  _  _ "+
+						 "|_ |_ |_ |_ |_ |_ |_ |_ |_ "+
+						 "|_||_||_||_||_||_||_||_||_|"+
+						 "                           "]
+	account2= ["    _  _  _  _  _  _     _ ",
+						 "|_||_|| || ||_   |  |  ||_ ",
+						 "  | _||_||_||_|  |  |  | _|",
+						 "                           "]
+
 	it "detects a 0" do
 		zero =	[" _ ","| |","|_|","   "]
     expect(BankOCR.read_number(zero)).to eq 0
@@ -80,29 +93,16 @@ describe "BankOCR scanner" do
 	end
 
 	it "detects different account numbers" do
-		account1= [" _  _  _  _  _  _  _  _  _ ",
-							 "| || || || || || || || || |",
-							 "|_||_||_||_||_||_||_||_||_|",
-							 "                           "]
-		expect(BankOCR.read_line(account1)).to eq 000000000
-
-		account2= ["    _  _  _  _  _  _     _ ",
-							 "|_||_|| || ||_   |  |  ||_ ",
-							 "  | _||_||_||_|  |  |  | _|",
-							 "                           "]
-		expect(BankOCR.read_line(account2)).to eq 490067715
-		account3= [" _  _  _  _  _  _  _  _  _ "+
-							 "|_ |_ |_ |_ |_ |_ |_ |_ |_ "+
-							 "|_||_||_||_||_||_||_||_||_|"+
-							 "                           "]
-		expect(BankOCR.read_line(account3)).to eq 666666666
+		expect(BankOCR.read_line(account1)).to eq "000000000"
+		expect(BankOCR.read_line(account2)).to eq "490067715"
+		expect(BankOCR.read_line(account3)).to eq "666666666"
 	end
 
 	it "detects an invalid checksum" do
-		account = ["    _  _  _  _  _  _     _ ",
-							 "|_||_|| || ||_   |  |  ||_ ",
-							 "  | _||_||_||_|  |  |  | _|",
-							 "                           "]
-		expect(BankOCR.checksum?(account)).to eq false
+		expect(CheckSum.checksum?(account2)).to eq false
+	end
+
+	it "creates a file with results and displays it" do
+		expect(BankOCR.check_and_create(account2)).to eq "490067715   ILL\n"
 	end
 end
