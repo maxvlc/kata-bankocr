@@ -4,7 +4,7 @@ describe "BankOCR scanner" do
 
 	it "detects a 0" do
 		zero =	[" _ ","| |","|_|","   "]
-    expect(BankOCR.look_line(zero)).to eq 0
+    expect(BankOCR.read_number(zero)).to eq 0
 	end
 
 	it "detects a 1" do
@@ -12,7 +12,7 @@ describe "BankOCR scanner" do
 					"  |"+
 					"  |"+
 					"   "]
-		expect(BankOCR.look_line(one)).to eq 1
+		expect(BankOCR.read_number(one)).to eq 1
 	end
 
 	it "detects a 2" do
@@ -20,7 +20,7 @@ describe "BankOCR scanner" do
 					 " _|"+
 					 "|_ "+
 					 "   "]
-		expect(BankOCR.look_line(two)).to eq 2
+		expect(BankOCR.read_number(two)).to eq 2
 	end
 
 	it "detects a 3" do
@@ -28,7 +28,7 @@ describe "BankOCR scanner" do
 						 " _|"+
 						 " _|"+
 						 "   "]
-		expect(BankOCR.look_line(three)).to eq 3
+		expect(BankOCR.read_number(three)).to eq 3
 	end
 
 	it "detects a 4" do
@@ -36,7 +36,7 @@ describe "BankOCR scanner" do
 						"|_|"+
 						"  |"+
 						"   "]
-		expect(BankOCR.look_line(four)).to eq 4
+		expect(BankOCR.read_number(four)).to eq 4
 	end
 	
 	it "detects a 5" do
@@ -44,7 +44,7 @@ describe "BankOCR scanner" do
 						"|_ "+
 						" _|"+
 						"   "]
-		expect(BankOCR.look_line(five)).to eq 5
+		expect(BankOCR.read_number(five)).to eq 5
 	end
 	
 	it "detects a 6" do
@@ -52,7 +52,7 @@ describe "BankOCR scanner" do
 						 "|_ "+
 						 "|_|"+
 						 "   "]
-		expect(BankOCR.look_line(six)).to eq 6
+		expect(BankOCR.read_number(six)).to eq 6
 	end
 	
 	it "detects a 7" do
@@ -60,7 +60,7 @@ describe "BankOCR scanner" do
 						 "  |"+
 						 "  |"+
 						 "   "]
-		expect(BankOCR.look_line(seven)).to eq 7
+		expect(BankOCR.read_number(seven)).to eq 7
 	end
 	
 	it "detects a 8" do
@@ -68,7 +68,7 @@ describe "BankOCR scanner" do
 						 "|_|"+
 						 "|_|"+
 						 "   "]
-		expect(BankOCR.look_line(eight)).to eq 8
+		expect(BankOCR.read_number(eight)).to eq 8
 	end
 
 	it "detects a 9" do
@@ -76,7 +76,7 @@ describe "BankOCR scanner" do
 						"|_|"+
 						" _|"+
 						"   "]
-		expect(BankOCR.look_line(nine)).to eq 9
+		expect(BankOCR.read_number(nine)).to eq 9
 	end
 
 	it "detects different account numbers" do
@@ -84,18 +84,18 @@ describe "BankOCR scanner" do
 							 "| || || || || || || || || |",
 							 "|_||_||_||_||_||_||_||_||_|",
 							 "                           "]
-		expect(BankOCR.decode_array(account1)).to eq 000000000
+		expect(BankOCR.read_line(account1)).to eq 000000000
 
 		account2= ["    _  _  _  _  _  _     _ ",
 							 "|_||_|| || ||_   |  |  ||_ ",
 							 "  | _||_||_||_|  |  |  | _|",
 							 "                           "]
-		expect(BankOCR.decode_array(account2)).to eq 490067715
+		expect(BankOCR.read_line(account2)).to eq 490067715
 		account3= [" _  _  _  _  _  _  _  _  _ "+
 							 "|_ |_ |_ |_ |_ |_ |_ |_ |_ "+
 							 "|_||_||_||_||_||_||_||_||_|"+
 							 "                           "]
-		expect(BankOCR.decode_array(account3)).to eq 666666666
+		expect(BankOCR.read_line(account3)).to eq 666666666
 	end
 
 

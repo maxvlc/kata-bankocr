@@ -42,51 +42,41 @@ class BankOCR
                     "   "
               }
 
-  def self.decode_array(original_array)
+  def self.read_line original_array
     account =""
     character=""
-    account_readed = ""
+    transform_account_to_string = ""
     number_readed = 0
-    #show readed line as String
-    (0..3).each { |line_readed| account_readed+=original_array[line_readed].to_s}
-    # puts "*"*3+account_readed+"*"*3
+
+    #Convierte el array de string que me pasan a una cadena
+    (0..3).each { |line_readed| transform_account_to_string+=original_array[line_readed].to_s}
     
+    #Recorro las nueve posiciones que forman la cuenta y las cuatro lineas para sacar cada uno de los num.
     (0..9).each {|position| 
       pointer = (position*3)
       digit = ""
       (0..3).each { |line|
         start = pointer+(line*27)
         final = start+2
-        digit += account_readed[start..final]
+        digit += transform_account_to_string[start..final]
         }
-        # puts digit
-        account += reconocer_character(digit)
+        #Leo cada digito por linea y lo paso para decodificarlo y lo añado a la cuenta total
+        account += identify_number(digit)
       }
       account.to_i
   end
 
-  def self.reconocer_character (identify_number)
+  def self.identify_number digit
     result = ""
-    CHARACTERS.select { |key,value| result += key.to_s if value == identify_number }
-    result.to_s
+    #Busca el numero en mi hash y lo devuelve para añadir a la cuenta
+    CHARACTERS.select { |key,value| result << key.to_s if value == digit }
+    result
   end
 
-  def self.look_line(scan)
-    string_result = ""
-    string_result = scan.map { |i| i.to_s}.join
+  def self.read_number scan
+    #Convierto el array de texto que me envian a una cadena de texto
+    string_result = scan.map { |number_as_string| number_as_string.to_s}.join
+    #Busca el numero en mi hash y lo devuelve
     CHARACTERS.select { |key,value| return key if value==string_result }
-    #Necesito encontrar los valores cada 3 caracteres
-
-    # puts CHARACTERS
-    # CHARACTERS.select { |key,value| 
-    #   puts "*"+scan.to_s+"*"
-    #   puts "*"+value.to_s+"*"
-    #   return key if value==scan }
-    #CHARACTERS.each { |key,value| puts key(value) if value==char }
   end
-
-  # def self.read(scan)
-  #   CHARACTERS.select { |key,value| return key if value==scan }
-  # end
-
 end
