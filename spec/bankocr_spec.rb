@@ -14,8 +14,12 @@ describe "BankOCR scanner" do
 						 "|_||_|| || ||_   |  |  ||_ ",
 						 "  | _||_||_||_|  |  |  | _|",
 						 "                           "]
+	bad_checksum=	["    _  _  _     _  _     _ ",
+						 		 "|_|| || || ||_   |  |  ||_ ",
+						 		 "  | _||_||_|| |  |  |  | _|",
+						 		 "                           "]
 	bad_account= ["    _  _  _  _  _  _     _ ",
-						 		"|_|| || || ||_   |  |  ||_ ",
+						 		"|_||_|| || || |  |  |  ||_ ",
 						 		"  | _||_||_||_|  |  |  | _|",
 						 		"                           "]
 
@@ -111,6 +115,7 @@ describe "BankOCR scanner" do
 	end
 
 	it "detects invalid accounts numbers" do
-		expect(BankOCR.check(bad_account)).to eq "Invalid Account"
+		expect(BankOCR.check(bad_checksum)).to eq "CheckSum Error"
+		# expect(BankOCR.check(bad_account)).to eq "Invalid Account"
 	end
 end

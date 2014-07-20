@@ -18,18 +18,18 @@ class BankOCR
   CHARS_BETWEEN_NUMBER = 2
   RESULT_FILE = "numbers.txt"
   ZERO = 0
-  CHAR_LENGTH = 9
-  CHAR_SECTION = 3
+  LINE_LENGTH = 9
+  CHAR_PARTIAL = 3
   LAST_LINE = 3
 
   def self.read_line account_number
     final_account = ""
     account_as_string = convert_array_to_string (account_number)
    
-    (ZERO..CHAR_LENGTH).each {|position| 
-      pointer = (position * CHAR_SECTION)
+    (ZERO..LINE_LENGTH).each { |position| 
+      pointer = (position * CHAR_PARTIAL)
       digit = ""
-      (ZERO..CHAR_SECTION).each { |line|
+      (ZERO..CHAR_PARTIAL).each { |line|
         start = pointer + (line * CHARS_PER_LINE)
         final = start + CHARS_BETWEEN_NUMBER
         digit += account_as_string[start..final]
@@ -41,7 +41,7 @@ class BankOCR
 
   def self.convert_array_to_string original_array
     final_string = ""
-    (ZERO..LAST_LINE).each { |line_readed| final_string += original_array[line_readed].to_s}
+    (ZERO..LAST_LINE).each { |line_readed| final_string += original_array[line_readed].to_s }
     final_string
   end
 
@@ -53,15 +53,21 @@ class BankOCR
 
   def self.read_number scan
     string_result = scan.map { |number_as_string| number_as_string.to_s}.join
-    CHARACTERS.select { |key,value| return key if value==string_result }
+    CHARACTERS.select { |key,value| return key if value == string_result }
   end
 
   def self.check_and_create account
     WorkingFile.create_file(RESULT_FILE, account)
   end
 
+  def invalid_account? account
+    valid = false
+
+  end
+
   def self.check account
     result = ""
-    result = "Invalid Account" if read_line(account).size < CHAR_LENGTH
+    result = "CheckSum Error" if read_line(account).size < LINE_LENGTH
+    # result = "Invalid Account" if read_line(account).size < LINE_LENGTH
   end
 end
